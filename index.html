@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZapPlay Mines</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="game-container">
+
+        <!-- TOP PANEL -->
+        <header class="top-panel">
+            <h1 class="game-title">⚡ ZapPlay Mines</h1>
+            <div class="controls">
+                <label>Bet Amount</label>
+                <input id="betInput" type="number" step="0.01" min="0.01" value="1.00" />
+
+                <label>Mines</label>
+                <input id="mineCount" type="number" min="1" max="24" value="3" />
+            </div>
+        </header>
+
+        <!-- SPINNING BOARD WRAPPER -->
+        <div id="boardWrap" class="board-wrap">
+            <div id="board" class="board"></div>
+        </div>
+
+        <!-- BOTTOM PANEL -->
+        <footer class="bottom-panel">
+            <button id="startBtn" class="btn start">Start Game</button>
+            <button id="cashoutBtn" class="btn cashout" disabled>Cashout</button>
+            <button id="resetBtn" class="btn reset">Reset</button>
+        </footer>
+
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

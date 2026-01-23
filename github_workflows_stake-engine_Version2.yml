@@ -1,0 +1,73 @@
+# Runs Stake Engine validation/tests on pull requests.
+# Replace the placeholder install/run lines with the exact commands from
+# https://stakeengine.github.io/math-sdk/ or Stake Engine docs.
+name: Stake Engine CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  stake-engine:
+    name: Stake Engine validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install frontend dependencies (if present)
+        run: |
+          if [ -f package.json ]; then npm ci; fi
+
+      - name: Install Python dependencies (if present)
+        run: |
+          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+
+      - name: Install Stake Engine SDK / CLI (PLACEHOLDER)
+        run: |
+          echo ">>> PLACEHOLDER — install Stake Engine SDK/CLI here"
+          echo "See https://stakeengine.github.io/math-sdk/ for official install steps."
+          # Example (replace with official command):
+          # python -m pip install stake-engine-math-sdk
+
+      - name: Run Stake Engine validation / tests (PLACEHOLDER)
+        id: stake_run
+        run: |
+          echo ">>> PLACEHOLDER — run Stake Engine validation or CLI tests here"
+          echo "Replace the following example commands with official commands from Stake Engine docs."
+          mkdir -p stake-engine-results
+          # Example pseudo-commands — replace these:
+          # python -m stake_engine.validate --config stake-engine.yml --output stake-engine-results/
+          # npm run stake:validate
+          echo "no-results" > stake-engine-results/result.txt
+          # Optionally: set an output variable for summary status
+          echo "::set-output name=status::no-results"
+
+      - name: Upload Stake Engine results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stake-engine-results
+          path: stake-engine-results/**
+
+      - name: Add or update PR comment with results (optional)
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: stake-engine-results/result.txt
+          header: "Stake Engine results"

@@ -1,0 +1,58 @@
+name: Stake Engine CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  stake-engine:
+    name: Stake Engine validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install frontend dependencies (if present)
+        run: |
+          if [ -f package.json ]; then npm ci; fi
+
+      - name: Install Python dependencies (if present)
+        run: |
+          if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
+
+      - name: Run deterministic Stake simulation (produces artifact)
+        id: stake_sim
+        run: |
+          echo ">>> Running deterministic simulation to produce stake-engine-results/result.json"
+          mkdir -p stake-engine-results
+          node tests/simulate_payouts.js --seed "${{ github.run_id }}" --bombs 8 > stake-engine-results/result.json
+          echo "status=simulated" >> $GITHUB_OUTPUT
+
+      - name: Upload Stake Engine results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stake-engine-results
+          path: stake-engine-results/**
+
+      - name: Add or update PR comment with results (optional)
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: stake-engine-results/result.json
+          header: "Stake Engine results"

@@ -16,6 +16,10 @@ for (let i = 0; i < args.length; i++) {
     i++;
   } else if (args[i] === '--bombs' && i + 1 < args.length) {
     bombs = parseInt(args[i + 1]);
+    if (isNaN(bombs) || bombs < 1 || bombs > 24) {
+      console.error('Error: --bombs must be a number between 1 and 24');
+      process.exit(1);
+    }
     i++;
   }
 }
@@ -36,6 +40,7 @@ function createSeededRandom(seed) {
 }
 
 // Multiplier formula from game.js
+// Note: This version accepts parameters for testing, unlike the original which uses global state
 function getMultiplier(revealedCount, mines) {
   const risk = mines / 25;
   const base = 1.18 + risk * 0.55;
@@ -44,14 +49,12 @@ function getMultiplier(revealedCount, mines) {
 
 // Simulate placing mines on a 5x5 grid
 function placeMines(random, mineCount) {
-  const minePositions = [];
-  while (minePositions.length < mineCount) {
+  const minePositions = new Set();
+  while (minePositions.size < mineCount) {
     const pos = Math.floor(random() * 25);
-    if (!minePositions.includes(pos)) {
-      minePositions.push(pos);
-    }
+    minePositions.add(pos);
   }
-  return minePositions;
+  return Array.from(minePositions);
 }
 
 // Run simulation

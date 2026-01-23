@@ -1,0 +1,17 @@
+# Example Stake Engine configuration file.
+# Adapt these fields to the Stake Engine format required by Stake Engine.
+# Update keys/paths to match the Stake Engine spec.
+engine_version: "1.0"
+game_id: "zapplay-mines"         # Replace with the actual game ID
+math:
+  path: "math/"                  # Directory for math outputs or expected math files
+frontend:
+  path: ""                       # If your front-end files are at repo root, leave blank or set "frontend/"
+tests:
+  unit: "pytest -q"              # Example: replace with actual test commands if used
+  acceptance:
+    - "npm run build"
+    - "npm run stake:validate"   # Replace with the real Stake Engine validation command
+ci:
+  on_pr: true
+  report_path: "stake-engine-results/"

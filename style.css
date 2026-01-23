@@ -79,6 +79,11 @@ body {
     color: var(--text);
 }
 
+.controls input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* -------------------------
    BOARD + SPINNING WRAPPER
 -------------------------- */
@@ -185,8 +190,12 @@ body {
 .cashout {
     background: #00c95e;
 }
+.cashout:hover:not(:disabled) {
+    box-shadow: 0 0 10px #00c95eaa;
+}
 .cashout:disabled {
     opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .reset {

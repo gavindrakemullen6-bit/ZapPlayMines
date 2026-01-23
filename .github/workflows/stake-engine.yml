@@ -56,7 +56,7 @@ jobs:
           # npm run stake:validate
           echo "no-results" > stake-engine-results/result.txt
           # Optionally: set an output variable for summary status
-          echo "::set-output name=status::no-results"
+          echo "status=no-results" >> $GITHUB_OUTPUT
 
       - name: Upload Stake Engine results
         if: always()

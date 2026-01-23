@@ -1,4 +1,3 @@
-```markdown
 # Stake Engine — integration and developer notes
 
 This repository includes a Stake Engine CI workflow and a sample Stake Engine configuration to run validation/tests for Stake Engine approval.
@@ -35,4 +34,3 @@ Notes for Stake reviewers
 Placeholders and action items
 - Replace the placeholder install/run lines in `.github/workflows/stake-engine.yml` with the exact Stake Engine SDK/CLI commands from the Stake docs.
 - Confirm the required status check name — we can update the workflow job name if you prefer it to match your branch protection policy exactly.
-```

@@ -16,6 +16,9 @@ let minePositions = [];
 let revealedCount = 0;
 let gameActive = false;
 
+// Animation duration (matches CSS animation)
+const SPIN_ANIMATION_DURATION = 3500;
+
 // ----------------------------
 // MATH: MULTIPLIER FORMULA
 // ----------------------------
@@ -72,7 +75,7 @@ function startGame() {
     // Remove spinning after animation completes
     setTimeout(() => {
         boardWrapEl.classList.remove("spinning");
-    }, 3500);
+    }, SPIN_ANIMATION_DURATION);
 
     cashoutBtn.disabled = true;
 }

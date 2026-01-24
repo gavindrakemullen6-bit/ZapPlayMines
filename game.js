@@ -69,6 +69,11 @@ function startGame() {
     placeMines();
     boardWrapEl.classList.add("spinning");
 
+    // Remove spinning after animation completes
+    setTimeout(() => {
+        boardWrapEl.classList.remove("spinning");
+    }, 3500);
+
     cashoutBtn.disabled = true;
 }
 
